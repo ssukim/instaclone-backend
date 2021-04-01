@@ -1,17 +1,20 @@
-require('dotenv').config();
+require("dotenv").config();
 
 import { ApolloServer } from "apollo-server";
 import schema from "./schema";
+import { getUser } from "./users/users.utils";
 
 const server = new ApolloServer({
-    schema,
-    context: {
-        token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE3MTU3MjE4fQ.0ml3U_aGQz765-OKqVtwrJTlqYroQXo-8yO1GAq6AZU"
-    }
+  schema,
+  context: async ({ req }) => {
+    return {
+        loggedInUser: await getUser(req.headers.token),
+    };
+  },
 });
 
 const PORT = process.env.PORT;
 
 server
-.listen(PORT)
-.then(() => console.log(`👍 Server is running on http://localhost:${PORT}/`));
+  .listen(PORT)
+  .then(() => console.log(`👍 Server is running on http://localhost:${PORT}/`));
