@@ -1,6 +1,7 @@
 import client from "../../../client";
 import { Resolvers } from "../../../types";
 import { protectedResolver } from "../../users.utils";
+import { processHashtags } from "../photos.utils";
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -9,12 +10,8 @@ const resolvers: Resolvers = {
         let hashtagObj = [];
         if (caption) {
           //parse caption
-          const hashtags = caption.match(/#[\w]+/g);
           //get or create Hashtags
-          hashtagObj = hashtags.map((hashtag) => ({
-            where: { hashtag },
-            create: { hashtag },
-          }));
+          hashtagObj = processHashtags(caption);
         }
         //save the photo WITH the parsed hashtags
         return client.photo.create({
@@ -27,10 +24,10 @@ const resolvers: Resolvers = {
               },
             },
             ...(hashtagObj.length > 0 && {
-                hashtags: {
-                    connectOrCreate: hashtagObj,
-                }
-            })
+              hashtags: {
+                connectOrCreate: hashtagObj,
+              },
+            }),
           },
         });
         //add the photo to the hashtags

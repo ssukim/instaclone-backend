@@ -19,11 +19,11 @@ ssukim Instaclone Backend
 ## Photos
 
 - [x] Upload Photo (Parse #)
-- [ ] See Photo
-- [ ] See Hashtags
-- [ ] Search Photos
-- [ ] Edit Photo
-- [ ] Like / Unlike Photo
+- [x] See Photo
+- [x] See Hashtags
+- [x] Search Photos
+- [x] Edit Photo
+- [x] Like / Unlike Photo
 - [ ] See Photo Likes
 - [ ] See Feed
 
